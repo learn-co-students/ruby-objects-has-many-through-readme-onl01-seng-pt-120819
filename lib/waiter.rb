@@ -2,9 +2,9 @@ class Waiter
  attr_accessor :name, :yrs_experience
   @@all = []
   
-  def initialize (name, yrs_experience)
+  def initialize(name, yrs_experience)
     @name = name
-    @age = age
+    @yrs_experience = yrs_experience
     @@all << self
   end
   
@@ -12,7 +12,32 @@ class Waiter
     @@all
   end
   
-  def new_meal(waiter, total, tip=0)
+  def new_meal(customer, total, tip=0)
     Meal.new(self, customer, total, tip)
   end
+  
+   def meals
+    Meal.all.select{|meal| meal.waiter == self}
+   end
+   
+  def best_tipper
+    best_tipped_meal=
+     meals.max do|meal_a, meal_b| 
+      meal_a.tip <=> meal_b.tip
+     end
+    best_tipped_meal.customer
+  end
+  
+  def most_frequent_customer
+    most_frequent_customer =
+     meals.count do |meal|
+       meal.customer == meal.customer
+     end
+     most_frequent_customer
+  end
+  
+
 end
+
+
+    
